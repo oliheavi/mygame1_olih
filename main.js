@@ -35,8 +35,8 @@ function make_field(){
 }
 
 window.addEventListener("click", function () {
-    let px = event.pageX;
-    let py = event.pageY;
+    let px = event.clientX;
+    let py = event.clientY;
 
     let obj = document.elementFromPoint(px,py);
     let objx = obj.getBoundingClientRect().left;
@@ -55,8 +55,8 @@ function logPosition(event) {
 
     if (event.changedTouches[0]) {
         // ページ
-        let px=event.changedTouches[0].pageX;
-        let py=event.changedTouches[0].pageY;
+        let px=event.changedTouches[0].clientX;
+        let py=event.changedTouches[0].clientY;
 
         let obj = document.elementFromPoint(px, py);
         let objx = obj.getBoundingClientRect().left;
