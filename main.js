@@ -314,85 +314,91 @@ function main() {
         context.fillText("NEXT BLOCK", 752, 24 + 72);
         context.fillText("COUNT : " + click_counter, 752, 24 + 72 * 5);
 
-        if (process == 1) {
-            if (fall_block() == false) {
-                process = 2;
-            }
-            draw_block();
-        } else if (process == 2) {
-            if (check_three() == true) {
-                process = 1;
-            } else {
-                if (game_over() == false) {
-                    if (game_clear() == true) {
-                        process = 4;
-                    } else {
-                        process = 3;
-                    }
+        switch (process) {
+            case 1:
+                if (fall_block() == false) {
+                    process = 2;
+                }
+                draw_block();
+                break;
+            case 2:
+                if (check_three() == true) {
+                    process = 1;
                 } else {
-                    process = 5;
+                    if (game_over() == false) {
+                        if (game_clear() == true) {
+                            process = 4;
+                        } else {
+                            process = 3;
+                        }
+                    } else {
+                        process = 5;
+                    }
                 }
-            }
-            draw_block();
+                draw_block();
+                break;
 
-        } else if (process == 3) {
-            var cursor_x = Math.floor((click_x - 24) / 72);
-            var cursor_y = 0;
+            case 3:
+                var cursor_x = Math.floor((click_x - 24) / 72);
+                var cursor_y = 0;
 
-            if (24 <= click_x && click_x < 24 + 72 * 8 && 24 <= click_y && click_y < 24 + 72 * 8) {
-                if (click_flg == true && field[cursor_y][cursor_x] == 0) {
-                    click_counter++;
-                    field[cursor_y][cursor_x] = next_block;
-                    next_block = randint(1, 8);
+                if (24 <= click_x && click_x < 24 + 72 * 8 && 24 <= click_y && click_y < 24 + 72 * 8) {
+                    if (click_flg == true && field[cursor_y][cursor_x] == 0) {
+                        click_counter++;
+                        field[cursor_y][cursor_x] = next_block;
+                        next_block = randint(1, 8);
+                    }
+                    process = 1;
                 }
-                process = 1;
-            }
 
-            click_flg = false;
+                click_flg = false;
 
-            context.clearRect(752 + 1 - 36, 168 + 1 - 36, 72 - 2, 72 - 2);
-            decide_color(next_block);
-            context.fillRect(752 + 1 - 36, 168 + 1 - 36, 72 - 2, 72 - 2);
+                context.clearRect(752 + 1 - 36, 168 + 1 - 36, 72 - 2, 72 - 2);
+                decide_color(next_block);
+                context.fillRect(752 + 1 - 36, 168 + 1 - 36, 72 - 2, 72 - 2);
 
-            draw_block();
-        } else if (process == 4) {
-            context.strokeStyle = "white";
-            context.fillStyle = "white";
-            context.font = "bold 30pt sans-serif";
-            context.textAlign = "center";
-            context.fillText("GAME CLEAR!", 24 + 72 * 4, 24 + 72 * 3);
+                draw_block();
+                break;
+            case 4:
+                context.strokeStyle = "white";
+                context.fillStyle = "white";
+                context.font = "bold 30pt sans-serif";
+                context.textAlign = "center";
+                context.fillText("GAME CLEAR!", 24 + 72 * 4, 24 + 72 * 3);
 
-            var string = "YOU CLICKED " + click_counter + " TIMES";
-            context.fillText(string, 24 + 72 * 4, 24 + 72 * 4);
+                var string = "YOU CLICKED " + click_counter + " TIMES";
+                context.fillText(string, 24 + 72 * 4, 24 + 72 * 4);
 
-            var rank;
-            var calc = first_block_cnt/2;
-            if (click_counter <= calc) {
-                rank = "S";
-            } else if (click_counter <= calc+8) {
-                rank = "A";
-            } else if (click_counter <= calc+19) {
-                rank = "B";
-            } else if (click_counter <= calc+31) {
-                rank = "C";
-            } else if (click_counter <= calc+49) {
-                rank = "D";
-            } else {
-                rank = "E";
-            }
-            context.fillText("YOUR RANK : " + rank, 24 + 72 * 4, 24 + 72 * 5);
+                var rank;
+                var calc = first_block_cnt / 2;
+                if (click_counter <= calc) {
+                    rank = "S";
+                } else if (click_counter <= calc + 8) {
+                    rank = "A";
+                } else if (click_counter <= calc + 19) {
+                    rank = "B";
+                } else if (click_counter <= calc + 31) {
+                    rank = "C";
+                } else if (click_counter <= calc + 49) {
+                    rank = "D";
+                } else {
+                    rank = "E";
+                }
+                context.fillText("YOUR RANK : " + rank, 24 + 72 * 4, 24 + 72 * 5);
+                break;
 
-        } else if (process == 5) {
-            context.strokeStyle = "black";
-            context.fillStyle = "black";
-            context.font = "bold 30pt sans-serif";
-            context.textAlign = "center";
-            context.fillText("GAME OVER...", 24 + 72 * 4, 24 + 72 * 4);
+            case 5:
+                context.strokeStyle = "black";
+                context.fillStyle = "black";
+                context.font = "bold 30pt sans-serif";
+                context.textAlign = "center";
+                context.fillText("GAME OVER...", 24 + 72 * 4, 24 + 72 * 4);
+                break;
         }
-
         context.clearRect(752 + 1 - 36, 168 + 1 - 36, 72 - 2, 72 - 2);
         decide_color(next_block);
         context.fillRect(752 + 1 - 36, 168 + 1 - 36, 72 - 2, 72 - 2);
     }
+
     requestAnimationFrame(main);
 }
