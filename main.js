@@ -378,14 +378,14 @@ function main() {
             context.fillText(string, 24 + 72 * 4, 24 + 72 * 4);
 
             var rank;
-            var calc = Math.max(first_block_cnt/2,0)+4;
+            var calc = Math.max(first_block_cnt/2,0);
             if (click_counter <= calc) {
                 rank = "S";
-            } else if (click_counter <= calc+13) {
+            } else if (click_counter <= calc+8) {
                 rank = "A";
-            } else if (click_counter <= calc+25) {
+            } else if (click_counter <= calc+19) {
                 rank = "B";
-            } else if (click_counter <= calc+37) {
+            } else if (click_counter <= calc+31) {
                 rank = "C";
             } else if (click_counter <= calc+49) {
                 rank = "D";
