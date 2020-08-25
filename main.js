@@ -35,35 +35,33 @@ function make_field() {
 }
 
 window.addEventListener("click", function () {
-    let px = event.clientX;
-    let py = event.clientY;
+    let cx = event.clientX;
+    let cy = event.clientY;
 
-    let obj = document.elementFromPoint(px, py);
-    let objx = obj.getBoundingClientRect().left;
-    let objy = obj.getBoundingClientRect().top;
+    let ob = document.elementFromPoint(cx, cy);
+    let ob_x = ob.getBoundingClientRect().left;
+    let ob_y = ob.getBoundingClientRect().top;
 
-    click_x = px - objx;
-    click_y = py - objy;
+    click_x = cx - ob_x;
+    click_y = cy - ob_y;
     click_flg = 1;
 });
 
-
-window.addEventListener('load', function () {
-    document.getElementById("canvas").addEventListener('touchend', logPosition);
+window.addEventListener("load", function () {
+    document.getElementById("canvas").addEventListener("touchend", pos);
 });
 
-function logPosition(event) {
-
+function pos(e) {
     if (event.changedTouches[0]) {
-        let px = event.changedTouches[0].clientX;
-        let py = event.changedTouches[0].clientY;
+        let cx = e.changedTouches[0].clientX;
+        let cy = e.changedTouches[0].clientY;
 
-        let obj = document.elementFromPoint(px, py);
-        let objx = obj.getBoundingClientRect().left;
-        let objy = obj.getBoundingClientRect().top;
+        let ob = document.elementFromPoint(cx, cy);
+        let ob_x = ob.getBoundingClientRect().left;
+        let ob_y = ob.getBoundingClientRect().top;
 
-        click_x = px - objx;
-        click_y = py - objy;
+        click_x = cx - ob_x;
+        click_y = cy - ob_y;
         click_flg = 1;
     }
 }
