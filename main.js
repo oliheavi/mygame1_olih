@@ -19,9 +19,9 @@ field = [
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 1, 0, 0, 0, 0],
-    [0, 0, 1, 4, 1, 0, 0, 0],
-    [0, 1, 2, 3, 5, 1, 0, 0]
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0]
 ];
 
 var click_x = -1, click_y = -1, click_flg = false;
@@ -47,6 +47,7 @@ window.addEventListener("click", function () {
     click_flg = 1;
 });
 
+
 window.addEventListener('load', function () {
     document.getElementById("canvas").addEventListener('touchend', logPosition);
 });
@@ -54,7 +55,6 @@ window.addEventListener('load', function () {
 function logPosition(event) {
 
     if (event.changedTouches[0]) {
-        // ページ
         let px = event.changedTouches[0].clientX;
         let py = event.changedTouches[0].clientY;
 
@@ -110,8 +110,6 @@ function decide_color(color_number) {
         context.fillStyle = "white";
     } else if (color_number == 7) {
         context.fillStyle = "gray";
-    } else if (color_number == 8) {
-        context.fillStyle = "skyblue";
     }
 }
 
@@ -144,20 +142,6 @@ function fall_block() {
     return flag;
 }
 
-function sweep_block() {
-    var cnt = 0;
-    for (var y = 0; y < 8; y++) {
-        for (var x = 0; x < 8; x++) {
-            if (field[y][x] == 8) {
-                field[y][x] = 0;
-                cnt++;
-            }
-        }
-    }
-
-    return cnt;
-}
-
 var ins = [
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
@@ -178,16 +162,20 @@ function in_boxes(v_y,v_x){
 }
 
 function check_three() {
+    var exist=false;
+
     for (var y = 0; y < 8; y++) {
         for (var x = 0; x < 8; x++) {
             ins[y][x] = field[y][x];
         }
     }
+
     for (var y = 1; y < 7; y++) {
         for (var x = 0; x < 8; x++) {
             if (ins[y][x] != 0) {
                 if (ins[y - 1][x] == ins[y][x] && ins[y][x] == ins[y + 1][x]) {
-                    field[y - 1][x] = field[y][x] = field[y + 1][x] = 8;
+                    field[y - 1][x] = field[y][x] = field[y + 1][x] = 0;
+                    exist=true;
                 }
             }
         }
@@ -196,7 +184,8 @@ function check_three() {
         for (var x = 1; x < 7; x++) {
             if (ins[y][x] != 0) {
                 if (ins[y][x - 1] == ins[y][x] && ins[y][x] == ins[y][x + 1]) {
-                    field[y][x - 1] = field[y][x] = field[y][x + 1] = 8;
+                    field[y][x - 1] = field[y][x] = field[y][x + 1] = 0;
+                    exist=true;
                 }
             }
         }
@@ -205,7 +194,8 @@ function check_three() {
         for (var x = 1; x < 7; x++) {
             if (ins[y][x] != 0) {
                 if (ins[y - 1][x - 1] == ins[y][x] && ins[y][x] == ins[y + 1][x + 1]) {
-                    field[y - 1][x - 1] = field[y][x] = field[y + 1][x + 1] = 8;
+                    field[y - 1][x - 1] = field[y][x] = field[y + 1][x + 1] = 0;
+                    exist=true;
                 }
             }
         }
@@ -214,7 +204,8 @@ function check_three() {
         for (var x = 1; x < 7; x++) {
             if (ins[y][x] != 0) {
                 if (ins[y - 1][x + 1] == ins[y][x] && ins[y][x] == ins[y + 1][x - 1]) {
-                    field[y - 1][x + 1] = field[y][x] = field[y + 1][x - 1] = 8;
+                    field[y - 1][x + 1] = field[y][x] = field[y + 1][x - 1] = 0;
+                    exist=true;
                 }
             }
         }
@@ -223,34 +214,38 @@ function check_three() {
     for (var y = 0; y < 8; y++) {
         for (var x = 0; x < 8; x++) {
             if (ins[y][x] == 1) {
-                field[y][x] = 8;
+                field[y][x] = 0;
                 if (in_boxes(y - 1, x - 1))
                     if (ins[y - 1][x - 1] != 0)
-                        field[y - 1][x - 1] = 8;
+                        field[y - 1][x - 1] = 0;
                 if (in_boxes(y - 1, x))
                     if (ins[y - 1][x] != 0)
-                        field[y - 1][x] = 8;
+                        field[y - 1][x] = 0;
                 if (in_boxes(y - 1, x + 1))
                     if (ins[y - 1][x + 1] != 0)
-                        field[y - 1][x + 1] = 8;
+                        field[y - 1][x + 1] = 0;
                 if (in_boxes(y, x - 1))
                     if (ins[y][x - 1] != 0)
-                        field[y][x - 1] = 8;
+                        field[y][x - 1] = 0;
                 if (in_boxes(y, x + 1))
                     if (ins[y][x + 1] != 0)
-                        field[y][x + 1] = 8;
+                        field[y][x + 1] = 0;
                 if (in_boxes(y + 1, x - 1))
                     if (ins[y + 1][x - 1] != 0)
-                        field[y + 1][x - 1] = 8;
+                        field[y + 1][x - 1] = 0;
                 if (in_boxes(y + 1, x))
                     if (ins[y + 1][x] != 0)
-                        field[y + 1][x] = 8;
+                        field[y + 1][x] = 0;
                 if (in_boxes(y + 1, x + 1))
                     if (ins[y + 1][x + 1] != 0)
-                        field[y + 1][x + 1] = 8;
+                        field[y + 1][x + 1] = 0;
+
+                exist=true;
             }
         }
     }
+
+    return exist;
 }
 
 function game_clear() {
@@ -285,7 +280,7 @@ function count_blocks(){
     return cnt_blc;
 }
 
-var process = 2, click_counter = 0, next_block = Math.floor((randint(1, 13)+2)/2+0.1);
+var process = 2, click_counter = 0, next_block = Math.floor((randint(1, 19)-1+2)/3+0.001)+1;
 var flag_cnt = true;
 var first_flg = true;
 var time_cnt = 0;
@@ -327,27 +322,22 @@ function main() {
             }
             draw_block();
         } else if (process == 2) {
-            check_three();
-            draw_block();
-            process = 3;
-        } else if (process == 3) {
-            var deleted = sweep_block();
-            if (deleted != 0) {
+            if (check_three() == true) {
                 process = 1;
             } else {
                 if (game_over() == false) {
                     if (game_clear() == true) {
-                        process = 5;
-                    } else {
                         process = 4;
+                    } else {
+                        process = 3;
                     }
                 } else {
-                    process = 6;
+                    process = 5;
                 }
             }
             draw_block();
 
-        } else if (process == 4) {
+        } else if (process == 3) {
             var cursor_x = Math.floor((click_x - 24) / 72);
             var cursor_y = 0;
 
@@ -367,7 +357,7 @@ function main() {
             context.fillRect(752 + 1 - 36, 168 + 1 - 36, 72 - 2, 72 - 2);
 
             draw_block();
-        } else if (process == 5) {
+        } else if (process == 4) {
             context.strokeStyle = "white";
             context.fillStyle = "white";
             context.font = "bold 30pt sans-serif";
@@ -378,7 +368,7 @@ function main() {
             context.fillText(string, 24 + 72 * 4, 24 + 72 * 4);
 
             var rank;
-            var calc = Math.max(first_block_cnt/2,0);
+            var calc = first_block_cnt/2;
             if (click_counter <= calc) {
                 rank = "S";
             } else if (click_counter <= calc+8) {
@@ -392,10 +382,9 @@ function main() {
             } else {
                 rank = "E";
             }
-
             context.fillText("YOUR RANK : " + rank, 24 + 72 * 4, 24 + 72 * 5);
 
-        } else if (process == 6) {
+        } else if (process == 5) {
             context.strokeStyle = "black";
             context.fillStyle = "black";
             context.font = "bold 30pt sans-serif";
