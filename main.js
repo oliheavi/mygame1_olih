@@ -378,7 +378,7 @@ function main() {
             context.fillText(string, 24 + 72 * 4, 24 + 72 * 4);
 
             var rank;
-            var calc = first_block_cnt/2-5;
+            var calc = Math.max(first_block_cnt/2,0);
             if (click_counter <= calc) {
                 rank = "S";
             } else if (click_counter <= calc) {
