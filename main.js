@@ -38,10 +38,7 @@ window.addEventListener("click", function () {
     let px = event.pageX;
     let py = event.pageY;
 
-    let ox = window.pageXOffset;
-    let oy = window.pageYOffset;
-
-    let obj = document.elementFromPoint(px - ox, py - oy);
+    let obj = document.elementFromPoint(px,py);
     let objx = obj.getBoundingClientRect().left;
     let objy = obj.getBoundingClientRect().top;
 
@@ -49,6 +46,28 @@ window.addEventListener("click", function () {
     click_y=py-objy;
     click_flg=1;
 });
+
+window.addEventListener('load', function () {
+    document.getElementById("canvas").addEventListener('touchend', logPosition);
+});
+
+function logPosition(event) {
+
+    if (event.changedTouches[0]) {
+        // ページ
+        let px=event.changedTouches[0].pageX;
+        let py=event.changedTouches[0].pageY;
+
+        let obj = document.elementFromPoint(px, py);
+        let objx = obj.getBoundingClientRect().left;
+        let objy = obj.getBoundingClientRect().top;
+
+        click_x = px - objx;
+        click_y = py - objy;
+        click_flg = 1;
+    }
+}
+
 
 function display_message(){
     window.alert("縦・横・斜めに3つブロックを揃えると消える\n2行目より上のブロックを全て消せばクリア\nクリック回数が少ないほどランクが高くなる");
