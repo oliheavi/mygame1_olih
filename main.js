@@ -1,5 +1,3 @@
-//writer oliheavi(olih) 2020/8/25
-
 let cvs_width = 912;
 let cvs_height = 624;
 let field_width = 8;
@@ -152,15 +150,15 @@ var ins = [
 
 ]
 
-function in_boxes(v_y,v_x){
-    if(0<=v_y && v_y<8 && 0<=v_x && v_x<8){
+function in_boxes(v_y, v_x) {
+    if (0 <= v_y && v_y < 8 && 0 <= v_x && v_x < 8) {
         return true;
     }
     return false;
 }
 
 function check_three() {
-    var exist=false;
+    var exist = false;
 
     for (var y = 0; y < 8; y++) {
         for (var x = 0; x < 8; x++) {
@@ -173,7 +171,7 @@ function check_three() {
             if (ins[y][x] != 0) {
                 if (ins[y - 1][x] == ins[y][x] && ins[y][x] == ins[y + 1][x]) {
                     field[y - 1][x] = field[y][x] = field[y + 1][x] = 0;
-                    exist=true;
+                    exist = true;
                 }
             }
         }
@@ -183,7 +181,7 @@ function check_three() {
             if (ins[y][x] != 0) {
                 if (ins[y][x - 1] == ins[y][x] && ins[y][x] == ins[y][x + 1]) {
                     field[y][x - 1] = field[y][x] = field[y][x + 1] = 0;
-                    exist=true;
+                    exist = true;
                 }
             }
         }
@@ -193,7 +191,7 @@ function check_three() {
             if (ins[y][x] != 0) {
                 if (ins[y - 1][x - 1] == ins[y][x] && ins[y][x] == ins[y + 1][x + 1]) {
                     field[y - 1][x - 1] = field[y][x] = field[y + 1][x + 1] = 0;
-                    exist=true;
+                    exist = true;
                 }
             }
         }
@@ -203,7 +201,7 @@ function check_three() {
             if (ins[y][x] != 0) {
                 if (ins[y - 1][x + 1] == ins[y][x] && ins[y][x] == ins[y + 1][x - 1]) {
                     field[y - 1][x + 1] = field[y][x] = field[y + 1][x - 1] = 0;
-                    exist=true;
+                    exist = true;
                 }
             }
         }
@@ -238,7 +236,7 @@ function check_three() {
                     if (ins[y + 1][x + 1] != 0)
                         field[y + 1][x + 1] = 0;
 
-                exist=true;
+                exist = true;
             }
         }
     }
@@ -266,11 +264,11 @@ function game_over() {
     return flag;
 }
 
-function count_blocks(){
-    var cnt_blc=0;
-    for(var y=0;y<8;y++){
-        for(var x=0;x<8;x++){
-            if(field[y][x]!=0){
+function count_blocks() {
+    var cnt_blc = 0;
+    for (var y = 0; y < 8; y++) {
+        for (var x = 0; x < 8; x++) {
+            if (field[y][x] != 0) {
                 cnt_blc++;
             }
         }
@@ -278,11 +276,11 @@ function count_blocks(){
     return cnt_blc;
 }
 
-var process = 2, click_counter = 0, next_block = Math.floor((randint(1, 19)-1+2)/3+0.001)+1;
+var process = 2, click_counter = 0, next_block = Math.floor((randint(1, 13) + 2) / 2 + 0.1);
 var flag_cnt = true;
 var first_flg = true;
 var time_cnt = 0;
-var first_block_cnt=0;
+var first_block_cnt = 0;
 
 requestAnimationFrame(main);
 function main() {
@@ -300,7 +298,7 @@ function main() {
             draw_frame();
             delete_block();
             draw_block();
-            first_block_cnt=count_blocks();
+            first_block_cnt = count_blocks();
         } else {
             draw_frame();
             delete_block();
@@ -346,7 +344,7 @@ function main() {
                     if (click_flg == true && field[cursor_y][cursor_x] == 0) {
                         click_counter++;
                         field[cursor_y][cursor_x] = next_block;
-                        next_block = randint(1, 8);
+                        next_block = Math.floor((randint(1, 13) + 2) / 2 + 0.001);
                     }
                     process = 1;
                 }
